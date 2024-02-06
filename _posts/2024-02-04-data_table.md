@@ -20,7 +20,7 @@ categories: [C1.4]
 </table>
 
 <script type="module">
-    const url = 'http://127.0.0.1:8086/api/users/';
+    const url = 'http://127.0.0.1:8020/api/users/';
     // prepare HTML result container for new output
     const resultContainer = document.getElementById("result");
     const options = {
@@ -89,7 +89,7 @@ categories: [C1.4]
     function deleteUser() {
         // You can add your logic for deleting the user here
         console.log("in function");
-        const url = 'http://127.0.0.1:8086/api/users/';
+        const url = 'http://127.0.0.1:8020/api/users/';
         const options = {
             mode: 'cors', // no-cors, cors, same-origin
             credentials: 'include', // include, same-origin, omit
