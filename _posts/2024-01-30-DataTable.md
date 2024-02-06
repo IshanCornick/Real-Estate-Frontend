@@ -80,6 +80,7 @@
         // You can add your logic for deleting the user here
         console.log("in function");
         const url = 'http://127.0.0.1:8086/api/users/';
+        window.location.href = "http://127.0.0.1:4200/student/2024/01/30/Loginsystem.html";
         const options = {
             mode: 'cors', // no-cors, cors, same-origin
             credentials: 'include', // include, same-origin, omit
