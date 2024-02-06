@@ -1,10 +1,10 @@
-# Configuration, override port with usage: make PORT=4200
-PORT ?= 4100
-REPO_NAME ?= Nighthawk-Pages
+# Configuration, override port with usage: make PORT=4300
+PORT ?= 4200
+REPO_NAME ?= student
 LOG_FILE = /tmp/jekyll$(PORT).log
-
+# Exceptions will stop make
 SHELL = /bin/bash
-# .SHELLFLAGS = -e # Exceptions will stop make, works on MacOS
+# .SHELLFLAGS = -e
 
 # Phony Targets, makefile housekeeping for below definitions
 .PHONY: default server convert clean stop
@@ -19,7 +19,7 @@ MARKDOWN_FILES := $(patsubst _notebooks/%.ipynb,$(DESTINATION_DIRECTORY)/%_IPYNB
 # Call server, then verify and start logging
 # ...
 
-# Call server, then verify and start logging
+
 default: server
 	@echo "Terminal logging starting, watching server..."
 	@# tail and awk work together to extract Jekyll regeneration messages
@@ -53,6 +53,7 @@ default: server
 
 
 
+
 # Start the local web server
 server: stop convert
 	@echo "Starting server..."
@@ -68,7 +69,11 @@ convert: $(MARKDOWN_FILES)
 # Convert .md file, if .ipynb file is newer
 $(DESTINATION_DIRECTORY)/%_IPYNB_2_.md: _notebooks/%.ipynb
 	@echo "Converting source $< to destination $@"
-	@python3 -c 'import sys; from scripts.convert_notebooks import convert_single_notebook; convert_single_notebook(sys.argv[1])' "$<"
+	@python -c 'import sys; from scripts.convert_notebooks import convert_single_notebook; convert_single_notebook(sys.argv[1])' "$<"
+
+flask-specific:
+	@echo "Starting Flask server for specific page..."
+	@python pythonflask.py
 
 # Clean up project derived files, to avoid run issues stop is dependency
 clean: stop
@@ -87,3 +92,8 @@ stop:
 	@@ps aux | awk -v log_file=$(LOG_FILE) '$$0 ~ "tail -f " log_file { print $$2 }' | xargs kill >/dev/null 2>&1 || true
 	@# removes log
 	@rm -f $(LOG_FILE)
+
+
+
+
+
