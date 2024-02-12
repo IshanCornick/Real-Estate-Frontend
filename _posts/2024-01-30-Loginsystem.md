@@ -114,7 +114,7 @@ The script defines a function when the page loads. This function is triggered wh
             }
             // Success!!!
             // Redirect to the database page
-            window.location.href = "http://127.0.0.1:4200/student/2024/01/30/DataTable.html"
+            window.location.href = "http://127.0.0.1:4200/student/2024/02/08/cookieclickermain.html"
             ;
         })
         // catch fetch errors (ie ACCESS to server blocked)
