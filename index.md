@@ -1,4 +1,4 @@
 ---
-layout: default
+layout: login
 title: Student Blog
 ---
