@@ -5,93 +5,105 @@
   <title>Mortenson Clicker</title>
   <style>
   body {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #faf8ef; /* Light beige background similar to Cookie Clicker */
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  margin: 0;
-  padding: 20px;
-}
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: url('https://media.architecturaldigest.com/photos/5ab53b6e2ed63a101d561e70/16:9/w_2560%2Cc_limit/Tout-Hamburg.jpg') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
 
-h1 {
-  font-size: 3em;
-  margin-bottom: 10px;
-  color: #575757; /* Dark gray color similar to Cookie Clicker */
-}
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
 
-p {
-  font-size: 1.2em;
-  margin-top: 0;
-  color: #575757;
-}
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      color: #000000;
+    }
 
-#cookie {
-  max-width: 100%;
-  height: auto;
-  border-radius: 50%;
-  cursor: pointer;
-  margin: 20px 0; /* Increased margin for spacing */
-  transition: transform 0.2s;
-}
+    p {
+      font-size: 1.2em;
+      margin: 10px 0;
+      color: #000000;
+    }
 
-#cookie:hover {
-  transform: scale(1.1);
-}
+    #cookie-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
 
-#points {
-  font-size: 1.5em;
-  color: #575757;
-}
+    #cookie {
+      max-width: 100%;
+      height: auto;
+      border-radius: 50%;
+      cursor: pointer;
+      margin-right: 20px;
+      border: 5px solid #7f2d74; /* Added border */
+      transition: transform 0.2s;
+    }
 
-.shop,
-.minigames {
-  background-color: #f3f3f3; /* Light gray background for sections */
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  max-width: 600px; /* Increased width for better layout */
-  width: 100%;
-  margin-bottom: 20px;
-}
+    #cookie:hover {
+      transform: scale(1.1);
+    }
 
-.shop h2,
-.minigames h2 {
-  margin-top: 0;
-  color: #575757;
-}
+    #points {
+      font-size: 1.5em;
+      color: #000000;
+    }
 
-.shop-item {
-  margin: 20px 0;
-  border-top: 1px solid #ddd;
-  padding-top: 20px;
-}
+    .shop {
+      background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
+    }
 
-.shop-item p,
-.shop-item button {
-  margin: 5px 0;
-  color: #575757;
-}
+    .shop h2 {
+      margin-top: 0;
+      font-size: 1.8em;
+      color: #575757;
+    }
 
-.shop-item button {
-  padding: 10px 20px;
-  background-color: #4CAF50;
-  color: white; /* White text for better visibility */
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
+    .shop-item {
+      margin: 20px 0;
+      border-top: 1px solid #ddd;
+      padding-top: 20px;
+    }
 
-.shop-item button:hover {
-  background-color: #45a049;
-}
+    .shop-item p,
+    .shop-item button {
+      margin: 10px 0;
+      color: #575757;
+    }
 
-.shop-item button:disabled {
-  background-color: #ddd;
-  cursor: not-allowed;
-}
+    .shop-item button {
+      padding: 12px 24px;
+      font-size: 1.2em;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .shop-item button:hover {
+      background-color: #45a049;
+    }
+
+    .shop-item button:disabled {
+      background-color: #ddd;
+      cursor: not-allowed;
+    }
   </style>
 </head>
 <body>
