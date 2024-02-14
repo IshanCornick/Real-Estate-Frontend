@@ -80,51 +80,54 @@ The script defines a function when the page loads. This function is triggered wh
 <script type="module">
     // uri variable and options object are obtained from config.js
 
+    function login_user() {
+    // Set Authenticate endpoint
+    const url = 'http://127.0.0.1:8086/api/users/authenticate';
 
-    function login_user(){
-        // Set Authenticate endpoint
-        const url ='http://127.0.0.1:8086/api/users/authenticate';
+    // Set the body of the request to include login data from the DOM
+    const body = {
+        uid: document.getElementById("uid").value,
+        password: document.getElementById("password").value,
+    };
 
-        // Set the body of the request to include login data from the DOM
-        const body = {
-            uid: document.getElementById("uid").value,
-            password: document.getElementById("password").value,
-        };
+    // Change options according to Authentication requirements
+    const authOptions = {
+        mode: 'cors', // no-cors, *cors, same-origin
+        credentials: 'include', // include, same-origin, omit
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        method: 'POST', // Override the method property
+        cache: 'no-cache', // Set the cache property
+        body: JSON.stringify(body)
+    };
 
-        // Change options according to Authentication requirements
-        const authOptions = {
-            mode: 'cors', // no-cors, *cors, same-origin
-            credentials: 'include', // include, same-origin, omit
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            method: 'POST', // Override the method property
-            cache: 'no-cache', // Set the cache property
-            body: JSON.stringify(body)
-        };
-
-        // Fetch JWT
-        fetch(url, authOptions)
+    // Fetch JWT
+    fetch(url, authOptions)
         .then(response => {
-            // handle error response from Web API
+            // Check if response is in the 2xx range
             if (!response.ok) {
-                const errorMsg = 'Login error: ' + response.status;
-                console.log(errorMsg);
-                return;
+                throw new Error('Authentication failed. Status: ' + response.status);
             }
-            // Success!!!
+
+            // Extract JWT from the response
+            return response.text();
+        })
+        .then(token => {
+            // Save the JWT in local storage
+            localStorage.setItem('jwt', token);
+            console.log(localStorage.getItem('jwt'))
             // Redirect to the database page
             const uidValue = encodeURIComponent(document.getElementById("uid").value);
             const passwordValue = encodeURIComponent(document.getElementById("password").value);
             const url = "http://127.0.0.1:4200/student/2024/02/08/cookieclickermain.html?uid=" + uidValue + "&password=" + passwordValue;
             window.location.href = url;
         })
-        // catch fetch errors (ie ACCESS to server blocked)
+        // catch fetch errors (i.e., ACCESS to server blocked)
         .catch(err => {
-
-            console.error(err);
+            console.error('Error during authentication:', err.message);
         });
-    }
+}
 
     // Attach login_user to the window object, allowing access to form action
     window.login_user = login_user;

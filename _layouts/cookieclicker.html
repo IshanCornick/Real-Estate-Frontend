@@ -294,7 +294,12 @@
     function update_user(){
 
       const currentUrl = window.location.href;
-
+      const jwt = localStorage.getItem('jwt'); // Retrieve the JWT from local storage
+      if (!jwt) {
+        console.log('No JWT found in local storage.');
+        return;
+    }
+    console.log(jwt)
 // Create a URLSearchParams instance with the query string part of the URL
     const urlParams = new URLSearchParams(window.location.search);
 
@@ -313,7 +318,8 @@
         const requestOptions = {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json',
+              'Authorization': `Bearer ${jwt}`,
+              'Content-Type': 'application/json',
             },
             body: JSON.stringify(body)
         };
