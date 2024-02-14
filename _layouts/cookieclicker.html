@@ -292,11 +292,21 @@
 
 
     function update_user(){
+
+      const currentUrl = window.location.href;
+
+// Create a URLSearchParams instance with the query string part of the URL
+    const urlParams = new URLSearchParams(window.location.search);
+
+// Retrieve the value of the 'uid' parameter
+      const temp_uid = urlParams.get('uid');
+      const temp_password = urlParams.get('password');
+
     if (typeof points === 'number' && !isNaN(points)) {
         const url = 'http://127.0.0.1:8086/api/users/';
         const body = {
-            uid: document.getElementById("uid").value,
-            password: document.getElementById("password").value,
+            uid: temp_uid,
+            password: temp_password,
             IntegerValue: points
         };
 
@@ -304,7 +314,7 @@
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-            }
+            },
             body: JSON.stringify(body)
         };
 
