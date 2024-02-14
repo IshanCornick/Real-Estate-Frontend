@@ -109,7 +109,7 @@
 <body>
   <h1>Cookie Clicker</h1>
   <p>Click the cookie to earn points!</p>
-  <img id="cookie" src="https://avatars.githubusercontent.com/u/54686997?v=4" alt="Cookie Image">
+  <img id="cookie" src="https://www.realsimple.com/thmb/uwmEcWtairipZTGavdWVbkV_dqw=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/chocolatechip-cookies_300-d6a402fc30814fdf87af28be97b5fcdc.jpg" alt="Cookie Image">
   <p>Points: <span id="points">0</span></p>
 
   <div class="shop">
@@ -174,6 +174,8 @@
     cookie.addEventListener('click', () => {
       points += clickPower;
       updatePointsDisplay();
+      update_user()
+
     });
 
     upgradeClickButton.addEventListener('click', () => {
@@ -283,6 +285,51 @@
         guessResult.textContent = 'Not enough points to play the game!';
       }
     }
+
+   
+
+
+
+
+    function update_user(){
+    if (typeof points === 'number' && !isNaN(points)) {
+        const url = 'http://127.0.0.1:8086/api/users/';
+        const body = {
+            uid: document.getElementById("uid").value,
+            password: document.getElementById("password").value,
+            IntegerValue: points
+        };
+
+        const requestOptions = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+            body: JSON.stringify(body)
+        };
+
+        fetch(url, requestOptions)
+            .then(response => {
+                if (response.status !== 200) {
+                }
+
+                response.json().then(data => {
+                  console.log(data)
+                    // Handle the response data if needed
+                });
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    } else {
+        console.error('Invalid integer value.');
+    }
+}
+
+
+
+
   </script>
-</body>
+  </body>
+  
 </html>

@@ -3,6 +3,7 @@
         <tr>
             <th>Name</th>
             <th>ID</th>
+            <th>Score</th>
         </tr>
     </thead>
     <tbody id="result">
@@ -144,6 +145,7 @@
     function update_user(){
       const url = 'http://127.0.0.1:8086/api/users/';
       const body = {
+        name: "toby",
         uid: document.getElementById("uid").value,
         password: document.getElementById("password").value,
         name: document.getElementById("name").value,
