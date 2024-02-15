@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Crossy Road</title>
+    <title>Crossy lol Road</title>
     <style>
         body {
             margin: 0;
