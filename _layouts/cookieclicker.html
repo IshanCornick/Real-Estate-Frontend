@@ -130,7 +130,49 @@
       <p>Auto Double Click (2 clicks per second) - Cost: <span id="autoDoubleClickCost">1000</span> points - Purchased: <span id="autoDoubleClickCount">0</span></p>
       <button id="autoDoubleClick">Buy</button>
     </div>
+    <div class="shop-item">
+      <p>New Skin for Clicker - Cost: <span id="newSkinCost">100</span> points</p>
+      <button id="buyNewSkin">Buy New Skin</button>
+    </div>
   </div>
+    
+    <script>let newSkinCost = 100;
+      let newSkinPurchased = false;
+    
+      const buyNewSkinButton = document.getElementById('buyNewSkin');
+      const newSkinCostDisplay = document.getElementById('newSkinCost');
+      function updatePointsDisplay() {
+        pointsDisplay.textContent = points;
+        buyNewSkinButton.disabled = newSkinPurchased || points < newSkinCost; // Disable new skin button if already purchased or not enough points
+}
+function updateShopDisplay() {
+  newSkinCostDisplay.textContent = newSkinCost;
+  // Update other shop item displays as needed
+}
+
+cookie.addEventListener('click', () => {
+  points += clickPower;
+  updatePointsDisplay();
+});
+
+buyNewSkinButton.addEventListener('click', () => {
+  if (points >= newSkinCost && !newSkinPurchased) {
+    points -= newSkinCost;
+    cookie.src = "https://as2.ftcdn.net/v2/jpg/02/47/71/45/1000_F_247714590_52fGc5te3Duvupq9ztw8S1ncji7z99S5.jpg"; // URL of the new skin
+    cookie.style.maxWidth = "400px"; // Adjust size as needed
+    cookie.style.height = "400px"; // Adjust if a specific height is desired
+    newSkinPurchased = true;
+    updatePointsDisplay();
+  } else {
+    alert('Not enough points or skin already purchased.');
+  }
+});
+
+// Call updateShopDisplay at the end of your script to ensure shop item statuses are correctly initialized
+updateShopDisplay();
+    
+    </script>
+  
 
   <div class="minigames">
     <h2>Mini Games</h2>
