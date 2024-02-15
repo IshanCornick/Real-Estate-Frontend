@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Simple Crossy Road-like Game</title>
+    <title>Crossy R</title>
     <style>
         body {
             display: flex;
@@ -11,23 +11,40 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
-            background-color: #87CEEB;
+            background: linear-gradient(#87CEEB, #ffffff); /* Sky to ground gradient */
+            font-family: 'Arial', sans-serif;
         }
-        canvas {
-            border: 1px solid #000;
-            background-color: #8FBC8F;
+        #gameCanvas {
+            border: 3px solid #333;
+            margin-top: 10px;
+        }
+        #gameOver {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3em;
+            color: white;
+            text-shadow: 2px 2px #000;
+            background: rgba(0, 0, 0, 0.75);
+            padding: 20px;
+            border-radius: 10px;
         }
     </style>
 </head>
 <body>
-    <div>Score: <span id="score">0</span></div>
-    <canvas id="gameCanvas" width="600" height="600"></canvas>
+    <div id="score-container">Score: <span id="score">0</span></div>
+    <canvas id="gameCanvas" width="600" height="400"></canvas>
+    <div id="gameOver">Game Over</div>
 
-<script>
+ <script>
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
         const scoreDisplay = document.getElementById('score');
+        const gameOverDisplay = document.getElementById('gameOver');
         let score = 0;
+        let gameRunning = true;
 
         let player = {
             x: canvas.width / 2,
@@ -39,8 +56,9 @@
         };
 
         let obstacles = [
-            { x: 100, y: 100, width: 100, height: 20, color: '#000' },
-            { x: 300, y: 200, width: 100, height: 20, color: '#000' },
+            // Start with two obstacles
+            { x: -100, y: 100, width: 80, height: 20, color: '#000', speed: 2 },
+            { x: canvas.width + 100, y: 200, width: 80, height: 20, color: '#000', speed: -3 },
             // Add more obstacles here
         ];
 
@@ -61,6 +79,11 @@
             obstacles.forEach(obstacle => {
                 ctx.fillStyle = obstacle.color;
                 ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+                // Move the obstacle and check for off-screen
+                obstacle.x += obstacle.speed;
+                if (obstacle.x < -100 || obstacle.x > canvas.width) {
+                    obstacle.x = obstacle.speed < 0 ? canvas.width + 100 : -100;
+                }
             });
         }
 
@@ -95,28 +118,15 @@
             }
         }
 
+        function gameOver() {
+            gameRunning = false;
+            gameOverDisplay.style.display = 'block';
+        }
+
         function gameLoop() {
+            if (!gameRunning) return;
             ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
             drawPlayer();
             drawObstacles();
             drawPoints();
-            detectPointCollection(player, pointsObject);
-        }
-
-        setInterval(gameLoop, 50); // Game loop runs every 50ms
-
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'ArrowUp') player.y -= player.move;
-            if (event.key === 'ArrowDown') player.y += player.move;
-            if (event.key === 'ArrowLeft') player.x -= player.move;
-            if (event.key === 'ArrowRight') player.x += player.move;
-
-            // Check for collision with any of the obstacles
-            if (detectCollision(obstacles, player)) {
-                console.log("Collision detected!");
-                // Handle collision (e.g., end game, lose a life, etc.)
-            }
-        });
-    </script>
-</body>
-</html>
+            detectPointCollection(player
