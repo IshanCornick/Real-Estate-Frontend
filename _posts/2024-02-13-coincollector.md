@@ -12,7 +12,7 @@
     }
     canvas {
         display: block;
-        margin: 0 auto;
+        margin: 0 auto; 
         background-color: #fff;
         border: 2px solid #000;
     }

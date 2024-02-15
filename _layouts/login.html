@@ -115,9 +115,9 @@ The script defines a function when the page loads. This function is triggered wh
         })
         .then(token => {
             // Save the JWT in local storage
-            localStorage.setItem('jwt', token);
-            console.log(localStorage.getItem('jwt'))
-            // Redirect to the database page
+           // localStorage.setItem('jwt', token);  //save uid to localstorage cookie is already saved
+            localStorage.setItem('userid',document.getElementById("uid").value)
+            console.log(localStorage.getItem('userid'))
             const uidValue = encodeURIComponent(document.getElementById("uid").value);
             const passwordValue = encodeURIComponent(document.getElementById("password").value);
             const url = "http://127.0.0.1:4200/student/2024/02/08/cookieclickermain.html?uid=" + uidValue + "&password=" + passwordValue;
