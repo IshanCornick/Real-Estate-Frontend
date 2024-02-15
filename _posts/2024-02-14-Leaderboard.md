@@ -91,22 +91,54 @@ h1 {
 </html>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const results = [
-            {player: "Alice", score: 10},
-            {player: "Bob", score: 15},
-            {player: "Charlie", score: 8},
-            {player: "Diana", score: 12}
-        ];
-    
-        const leaderboardDiv = document.getElementById('leaderboard');
-        results.sort((a, b) => b.score - a.score); // Sort results by score
-    
-        results.forEach((result, index) => {
-            const entryDiv = document.createElement('div');
-            entryDiv.className = 'entry';
-            entryDiv.textContent = `${index + 1}. ${result.player} - ${result.score}`;
-            leaderboardDiv.appendChild(entryDiv);
-        });
-    });
 
+const url = 'http://127.0.0.1:8086/api/users/';
+const resultContainer = document.getElementById("result");
+const options = {
+    mode: 'cors',
+    credentials: 'include',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    method: 'GET',
+    cache: 'no-cache',
+};
+
+fetch(url, options)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+        return response.json(); // Parse JSON body of the response
+    })
+    .then(data => {
+        // Assuming each user object in 'data' has 'name', 'uid', and 'score' properties
+        data.forEach(user => {
+            const tr = document.createElement("tr");
+            
+            // Create table data for Name
+            const nameTd = document.createElement("td");
+            nameTd.textContent = user.name;
+            
+            // Create table data for ID
+            const idTd = document.createElement("td");
+            idTd.textContent = user.uid;
+            
+            // Create table data for Score
+            const scoreTd = document.createElement("td");
+            scoreTd.textContent = user.score; // Ensure 'score' is the correct property name from your API
+            
+            // Append table data to the row
+            tr.appendChild(nameTd);
+            tr.appendChild(idTd);
+            tr.appendChild(scoreTd);
+            
+            // Append the row to the result container
+            resultContainer.appendChild(tr);
+        });
+    })
+    .catch(error => {
+        console.error('Fetch error:', error);
+        resultContainer.innerHTML = `<tr><td colspan="3">Error loading leaderboard: ${error.message}</td></tr>`;
+    });
+</script>
