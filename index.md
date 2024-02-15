@@ -1,4 +1,4 @@
 ---
-layout: login
+layout: blogs
 title: Student Blog
 ---
