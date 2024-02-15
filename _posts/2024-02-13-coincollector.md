@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -6,14 +5,14 @@
 <title>Obstacle Game</title>
 <style>
     body {
-        background-color: #f0f0f0;
+        background-color: #87CEEB; /* Lighter sky blue */
         margin: 0;
         overflow: hidden;
     }
     canvas {
         display: block;
-        margin: 0 auto; 
-        background-color: #fff;
+        margin: 0 auto;
+        background-color: #ADD8E6; /* Light blue for a "daytime" feel */
         border: 2px solid #000;
     }
     #endScreen {
@@ -44,17 +43,17 @@
 
     const character = {
         x: 50,
-        y: canvas.height / 2,
+        y: canvas.height / 2 - 15, // Adjusted for emoji
         width: 30,
         height: 30,
         speed: 5
     };
 
-    const obstacleWidth = 20;
+    const obstacleWidth = 40; // Adjusted for emoji
     const obstacleSpeed = 3;
     let obstacles = [];
 
-    const coinSize = 10;
+    const coinSize = 20; // Adjusted for emoji
     let coins = [];
 
     let score = 0;
@@ -69,13 +68,11 @@
     });
 
     function update() {
-        // Move obstacles
         obstacles.forEach(obstacle => {
             obstacle.x -= obstacleSpeed;
             if (obstacle.x + obstacleWidth < 0) {
                 obstacles.shift();
             }
-            // Check collision with character
             if (character.x < obstacle.x + obstacleWidth &&
                 character.x + character.width > obstacle.x &&
                 character.y < obstacle.y + obstacleWidth &&
@@ -84,13 +81,11 @@
             }
         });
 
-        // Move coins
         coins.forEach(coin => {
             coin.x -= obstacleSpeed;
             if (coin.x + coinSize < 0) {
                 coins.shift();
             }
-            // Check collision with character
             if (character.x < coin.x + coinSize &&
                 character.x + character.width > coin.x &&
                 character.y < coin.y + coinSize &&
@@ -100,7 +95,6 @@
             }
         });
 
-        // Add new obstacles and coins
         if (Math.random() < 0.02) {
             obstacles.push({ x: canvas.width, y: Math.random() * (canvas.height - obstacleWidth) });
         }
@@ -112,20 +106,18 @@
     function render() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Draw character
-        ctx.fillStyle = '#ff0000';
-        ctx.fillRect(character.x, character.y, character.width, character.height);
+        // Draw character as car emoji
+        ctx.font = '30px Arial';
+        ctx.fillText('🛸', character.x, character.y + character.height);
 
-        // Draw obstacles
-        ctx.fillStyle = '#000000';
+        // Draw obstacles as rock emojis
         obstacles.forEach(obstacle => {
-            ctx.fillRect(obstacle.x, obstacle.y, obstacleWidth, obstacleWidth);
+            ctx.fillText('🪨', obstacle.x, obstacle.y + obstacleWidth);
         });
 
-        // Draw coins
-        ctx.fillStyle = '#ffd700';
+        // Draw coins as money bag emojis for a yellowish color
         coins.forEach(coin => {
-            ctx.fillRect(coin.x, coin.y, coinSize, coinSize);
+            ctx.fillText('💰', coin.x, coin.y + coinSize);
         });
 
         // Draw score
@@ -144,7 +136,6 @@
         document.location.reload();
     }
 
-    // Start the game loop
     gameLoopInterval = setInterval(() => {
         update();
         render();
