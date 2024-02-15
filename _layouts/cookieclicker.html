@@ -294,18 +294,19 @@
     function update_user(){
 
       const currentUrl = window.location.href;
-      const jwt = localStorage.getItem('jwt'); // Retrieve the JWT from local storage
-      if (!jwt) {
-        console.log('No JWT found in local storage.');
-        return;
-    }
-    console.log(jwt)
+    //  const uid_temp = localStorage.getItem('uid'); // Retrieve the JWT from local storage
+      //if (!uid_temp) {
+      //  console.log('No UID found in local storage.');
+      //  return;
+   // }
+   // console.log(uid_temp)
 // Create a URLSearchParams instance with the query string part of the URL
     const urlParams = new URLSearchParams(window.location.search);
 
 // Retrieve the value of the 'uid' parameter
       const temp_uid = urlParams.get('uid');
       const temp_password = urlParams.get('password');
+      console.log(temp_uid+"  "+ temp_password)
 
     if (typeof points === 'number' && !isNaN(points)) {
         const url = 'http://127.0.0.1:8086/api/users/';
@@ -314,11 +315,22 @@
             password: temp_password,
             IntegerValue: points
         };
-
+        const authOptions = {
+        mode: 'cors', // no-cors, *cors, same-origin
+        credentials: 'include', // include, same-origin, omit
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        method: 'POST', // Override the method property
+        cache: 'no-cache', // Set the cache property
+        body: JSON.stringify(body)
+    };
         const requestOptions = {
             method: 'PUT',
+            credentials: 'include',
             headers: {
-              'Authorization': `Bearer ${jwt}`,
+              
+             // 'Authorization': `Bearer ${uid_temp}`,
               'Content-Type': 'application/json',
             },
             body: JSON.stringify(body)
