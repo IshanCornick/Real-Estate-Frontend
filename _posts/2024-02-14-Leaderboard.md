@@ -1,9 +1,7 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Leaderboard</title>
 <style>body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #6e8efb, #a777e3);
@@ -71,7 +69,7 @@ h1 {
     body {
         padding: 10px;
     }
-    .container {
+.container {
         width: 100%;
     }
 }</style>
