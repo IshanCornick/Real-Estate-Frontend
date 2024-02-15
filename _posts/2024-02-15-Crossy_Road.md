@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Crossy R</title>
+    <title>Advanced Crossy Road-like Game</title>
     <style>
         body {
             display: flex;
@@ -38,7 +38,7 @@
     <canvas id="gameCanvas" width="600" height="400"></canvas>
     <div id="gameOver">Game Over</div>
 
- <script>
+<script>
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
         const scoreDisplay = document.getElementById('score');
