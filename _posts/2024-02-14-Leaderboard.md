@@ -4,53 +4,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Leaderboard</title>
-<style>
+<style>body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    color: #333;
+    padding: 20px;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.container {
+    width: 90%;
+    max-width: 600px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 1.5rem;
+}
+.leaderboard {
+    list-style: none;
+}
+.entry {
+    background-color: #f7f7f7;
+    border-left: 5px solid #5cb85c;
+    margin: 10px 0;
+    padding: 10px 15px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.2s ease-in-out;
+}
+.entry:hover {
+    transform: translateY(-5px);
+}
+.entry:nth-child(odd) {
+    background-color: #ffffff;
+}
+.entry:first-child {
+    border-color: #ffda77;
+}
+.entry:first-child,
+.entry:nth-child(2),
+.entry:nth-child(3) {
+    font-weight: bold;
+}
+/* Add a bit more flair */
+.entry::before {
+    content: counter(entry);
+    counter-increment: entry;
+    margin-right: 10px;
+    background: #eee;
+    border-radius: 50%;
+    padding: 5px 10px;
+    color: #333;
+}
+/* Responsive typography */
+@media (max-width: 600px) {
     body {
-        font-family: 'Arial', sans-serif;
-        background-color: #f0f0f0;
-        color: #333;
-        margin: 0;
-        padding: 20px;
-        box-sizing: border-box;
+        padding: 10px;
     }
     .container {
-        max-width: 600px;
-        margin: auto;
-        background: white;
-        padding: 20px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        border-radius: 8px;
+        width: 100%;
     }
-     h1 {
-        color: #333;
-    }
-     .leaderboard {
-        list-style: none;
-        padding: 0;
-    }
-     .entry {
-        background-color: #efefef;
-        border: 1px solid #ddd;
-        margin-top: 10px;
-        padding: 10px 15px;
-        border-radius: 5px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-     .entry:nth-child(odd) {
-        background-color: #f9f9f9;
-    }
-    .entry:first-child {
-        background-color: #ffd700;
-        color: #ffffff;
-    }
-     .entry:first-child,
-    .entry:nth-child(2),
-    .entry:nth-child(3) {
-        font-weight: bold;
-    }
-    </style>
+}</style>
     <html lang="en">
 <head>
     <meta charset="UTF-8">
