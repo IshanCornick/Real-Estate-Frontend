@@ -79,66 +79,99 @@ h1 {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css"> <!-- Link to your CSS file -->
 </head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Add your stylesheet link here -->
+    <style>
+        /* Add your CSS here if not using an external stylesheet */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        table {
+            width: 100%;
+            max-width: 600px;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:hover {background-color: #f5f5f5;}
+    </style>
+</head>
 <body>
-    <div class="container">
-        <h1>Game Leaderboard</h1>
-        <div id="leaderboard" class="leaderboard">
-            <!-- Leaderboard entries will be added here by JavaScript -->
-        </div>
-    </div>
-    <script src="script.js"></script> <!-- Link to your JavaScript file -->
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>ID</th>
+                <th>Score</th>
+            </tr>
+        </thead>
+        <tbody id="result">
+            <!-- Data will be inserted here by JavaScript -->
+        </tbody>
+    </table>
+
+<script type="module">
+        const url = 'http://127.0.0.1:8086/api/users/';
+        const resultContainer = document.getElementById("result");
+        const options = {
+            mode: 'cors',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'GET',
+            cache: 'no-cache',
+        };
+
+        fetch(url, options)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok: ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Clear the table before inserting new data
+                resultContainer.innerHTML = '';
+                // Assuming each user object in 'data' has 'name', 'uid', and 'score' properties
+                data.forEach(user => {
+                    const tr = document.createElement("tr");
+                    const nameTd = document.createElement("td");
+                    const idTd = document.createElement("td");
+                    const scoreTd = document.createElement("td");
+
+                    nameTd.textContent = user.name;
+                    idTd.textContent = user.uid;
+                    scoreTd.textContent = user.score; // Make sure 'score' corresponds to your data structure
+
+                    tr.appendChild(nameTd);
+                    tr.appendChild(idTd);
+                    tr.appendChild(scoreTd);
+
+                    resultContainer.appendChild(tr);
+                });
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+                resultContainer.innerHTML = `<tr><td colspan="3">Error loading leaderboard: ${error.message}</td></tr>`;
+            });
+    </script>
 </body>
 </html>
-
-<script>
-
-const url = 'http://127.0.0.1:8086/api/users/';
-const resultContainer = document.getElementById("result");
-const options = {
-    mode: 'cors',
-    credentials: 'include',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    method: 'GET',
-    cache: 'no-cache',
-};
-
-fetch(url, options)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok ' + response.statusText);
-        }
-        return response.json(); // Parse JSON body of the response
-    })
-    .then(data => {
-        // Assuming each user object in 'data' has 'name', 'uid', and 'score' properties
-        data.forEach(user => {
-            const tr = document.createElement("tr");
-            
-            // Create table data for Name
-            const nameTd = document.createElement("td");
-            nameTd.textContent = user.name;
-            
-            // Create table data for ID
-            const idTd = document.createElement("td");
-            idTd.textContent = user.uid;
-            
-            // Create table data for Score
-            const scoreTd = document.createElement("td");
-            scoreTd.textContent = user.score; // Ensure 'score' is the correct property name from your API
-            
-            // Append table data to the row
-            tr.appendChild(nameTd);
-            tr.appendChild(idTd);
-            tr.appendChild(scoreTd);
-            
-            // Append the row to the result container
-            resultContainer.appendChild(tr);
-        });
-    })
-    .catch(error => {
-        console.error('Fetch error:', error);
-        resultContainer.innerHTML = `<tr><td colspan="3">Error loading leaderboard: ${error.message}</td></tr>`;
-    });
-</script>
