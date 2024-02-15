@@ -2,73 +2,57 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Advanced Crossy Road-like Game</title>
+    <title>Crossy Road</title>
     <style>
         body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
             margin: 0;
-            background: linear-gradient(#87CEEB, #ffffff); /* Sky to ground gradient */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to bottom, #87CEEB 0%, #87CEEB 50%, #8FBC8F 50%, #8FBC8F 100%);
             font-family: 'Arial', sans-serif;
         }
-        #gameCanvas {
-            border: 3px solid #333;
-            margin-top: 10px;
+        canvas {
+            border: 5px solid #000;
         }
-        #gameOver {
-            display: none;
+        #score {
             position: absolute;
-            top: 50%;
+            top: 20px;
             left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 3em;
-            color: white;
+            transform: translateX(-50%);
+            font-size: 24px;
+            color: #FFF;
             text-shadow: 2px 2px #000;
-            background: rgba(0, 0, 0, 0.75);
-            padding: 20px;
-            border-radius: 10px;
         }
     </style>
 </head>
 <body>
-    <div id="score-container">Score: <span id="score">0</span></div>
-    <canvas id="gameCanvas" width="600" height="400"></canvas>
-    <div id="gameOver">Game Over</div>
+    <div id="score">Score: 0</div>
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
 
 <script>
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
-        const scoreDisplay = document.getElementById('score');
-        const gameOverDisplay = document.getElementById('gameOver');
         let score = 0;
-        let gameRunning = true;
+        let gameActive = true;
 
-        let player = {
-            x: canvas.width / 2,
-            y: canvas.height - 30,
-            width: 20,
-            height: 20,
-            color: '#FF4500',
-            move: 20
+        // Player
+        const player = {
+            x: canvas.width / 2 - 15,
+            y: canvas.height - 60,
+            width: 30,
+            height: 30,
+            color: '#FFD700'
         };
 
-        let obstacles = [
-            // Start with two obstacles
-            { x: -100, y: 100, width: 80, height: 20, color: '#000', speed: 2 },
-            { x: canvas.width + 100, y: 200, width: 80, height: 20, color: '#000', speed: -3 },
-            // Add more obstacles here
+        // Obstacles
+        const obstacles = [
+            { x: 0, y: 0, width: 80, height: 20, speed: 3, direction: 1 },
+            { x: 200, y: 100, width: 80, height: 20, speed: 4, direction: 1 },
+            { x: 400, y: 200, width: 80, height: 20, speed: 5, direction: -1 },
+            // Add more obstacles if you want
         ];
-
-        let pointsObject = {
-            x: Math.random() * (canvas.width - 20),
-            y: Math.random() * (canvas.height - 20),
-            width: 10,
-            height: 10,
-            color: '#FFFF00'
-        };
 
         function drawPlayer() {
             ctx.fillStyle = player.color;
@@ -77,56 +61,67 @@
 
         function drawObstacles() {
             obstacles.forEach(obstacle => {
-                ctx.fillStyle = obstacle.color;
+                ctx.fillStyle = 'red';
                 ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
-                // Move the obstacle and check for off-screen
-                obstacle.x += obstacle.speed;
-                if (obstacle.x < -100 || obstacle.x > canvas.width) {
-                    obstacle.x = obstacle.speed < 0 ? canvas.width + 100 : -100;
+                obstacle.x += obstacle.speed * obstacle.direction;
+                // Change direction if hit canvas edge
+                if (obstacle.x <= 0 || obstacle.x + obstacle.width >= canvas.width) {
+                    obstacle.direction *= -1;
                 }
             });
         }
 
-        function drawPoints() {
-            ctx.fillStyle = pointsObject.color;
-            ctx.fillRect(pointsObject.x, pointsObject.y, pointsObject.width, pointsObject.height);
+        function updateScore() {
+            const scoreDiv = document.getElementById('score');
+            scoreDiv.textContent = 'Score: ' + score;
         }
 
-        function detectCollision(obstacles, player) {
-            return obstacles.some(obstacle => {
-                return (
-                    player.x < obstacle.x + obstacle.width &&
-                    player.x + player.width > obstacle.x &&
-                    player.y < obstacle.y + obstacle.height &&
-                    player.y + player.height > obstacle.y
-                );
-            });
-        }
+        function checkCollision() {
+            const playerLeft = player.x;
+            const playerRight = player.x + player.width;
+            const playerTop = player.y;
+            const playerBottom = player.y + player.height;
 
-        function detectPointCollection(player, pointsObject) {
-            if (
-                player.x < pointsObject.x + pointsObject.width &&
-                player.x + player.width > pointsObject.x &&
-                player.y < pointsObject.y + pointsObject.height &&
-                player.y + player.height > pointsObject.y
-            ) {
-                // Reset points object location
-                pointsObject.x = Math.random() * (canvas.width - 20);
-                pointsObject.y = Math.random() * (canvas.height - 20);
-                score += 10; // Increase score
-                scoreDisplay.textContent = score; // Update score display
+            for (let obstacle of obstacles) {
+                if (playerRight > obstacle.x && 
+                    playerLeft < obstacle.x + obstacle.width &&
+                    playerBottom > obstacle.y && 
+                    playerTop < obstacle.y + obstacle.height) {
+                    gameActive = false;
+                    alert('Game Over! Score: ' + score);
+                    document.location.reload();
+                }
             }
         }
 
-        function gameOver() {
-            gameRunning = false;
-            gameOverDisplay.style.display = 'block';
-        }
-
         function gameLoop() {
-            if (!gameRunning) return;
-            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
+            if (!gameActive) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             drawPlayer();
             drawObstacles();
-            drawPoints();
-            detectPointCollection(player
+            checkCollision();
+            updateScore();
+            requestAnimationFrame(gameLoop);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowUp') player.y -= 20;
+            if (e.key === 'ArrowDown') player.y += 20;
+            if (e.key === 'ArrowLeft') player.x -= 20;
+            if (e.key === 'ArrowRight') player.x += 20;
+
+            // Score when reaching the top
+            if (player.y < 0) {
+                score++;
+                player.y = canvas.height - 60;
+            }
+
+            // Keep the player within the canvas
+            if (player.x < 0) player.x = 0;
+            if (player.x + player.width > canvas.width) player.x = canvas.width - player.width;
+            if (player.y + player.height > canvas.height) player.y = canvas.height - player.height;
+        });
+
+        gameLoop();
+    </script>
+</
