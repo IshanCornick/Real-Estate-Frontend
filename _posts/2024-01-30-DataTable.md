@@ -4,6 +4,8 @@
             <th>Name</th>
             <th>ID</th>
             <th>Score</th>
+            <th>Workout</th>
+            <th>Diet</th>
         </tr>
     </thead>
     <tbody id="result">
@@ -48,12 +50,16 @@
                     const tr = document.createElement("tr");
                     const name = document.createElement("td");
                     const id = document.createElement("td");
+                    const _diet = document.createElement("td")
+                    const _workout = document.createElement("td")
                     // data is specific to the API
                     name.innerHTML = row.name;
                     id.innerHTML = row.uid;
                     // this builds td's into tr
                     tr.appendChild(name);
                     tr.appendChild(id);
+                    tr.appendChild(_diet);
+                    tr.appendChild(_workout);
                     // append the row to table
                     resultContainer.appendChild(tr);
                 }

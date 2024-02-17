@@ -114,7 +114,7 @@ The script defines a function when the page loads. This function is triggered wh
             }
             // Success!!!
             // Redirect to the database page
-            const redirectUrl = `http://127.0.0.1:4200/student/2024/02/14/Gamehub.html?uid=${encodeURIComponent(uid)}&password=${encodeURIComponent(password)}`;
+            const redirectUrl = `http://127.0.0.1:4200/student/2024/02/17/main-hub.html?uid=${encodeURIComponent(uid)}&password=${encodeURIComponent(password)}`;
 
             window.location.href = redirectUrl;
         })
