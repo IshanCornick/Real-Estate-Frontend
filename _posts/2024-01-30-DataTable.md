@@ -3,7 +3,6 @@
         <tr>
             <th>Name</th>
             <th>ID</th>
-            <th>Score</th>
             <th>Workout</th>
             <th>Diet</th>
         </tr>
@@ -55,6 +54,8 @@
                     // data is specific to the API
                     name.innerHTML = row.name;
                     id.innerHTML = row.uid;
+                    _diet.innerHTML = row.diet;
+                    _workout.innerHTML = row.workout;
                     // this builds td's into tr
                     tr.appendChild(name);
                     tr.appendChild(id);
