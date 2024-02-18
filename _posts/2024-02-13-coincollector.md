@@ -37,6 +37,7 @@
     <div id="finalScore"></div>
     <button onclick="restartGame()">Restart</button>
 </div>
+
 <script>
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
