@@ -26,29 +26,78 @@
             <input type="radio" id="q2d" name="q2" value="D"><label for="q2d">D) 4</label>
         </div>
         <!-- Add more questions as needed -->
-        <button type="button" onclick="submitQuiz()">Submit Answers</button>
-    </form>
+        
+ </form>
+<div id="result"></div>
+
+<button type="button" onclick="submitQuiz()">Submit Answers</button>
     <div id="result"></div>
+    <div id="quizResultsDisplay">
+    </div>
 
 <script>
-        function submitQuiz() {
-            var score = 0;
-            var totalQuestions = 2; // Update this based on the number of questions
-            if(document.getElementById('q1b').checked) score++;
-            if(document.getElementById('q2a').checked) score++;
-            // Add more checks for additional questions
-            
-            var resultText = "";
-            if(score === totalQuestions) {
-                resultText = "You know your made you are in 10th grade or higher";
-            } else if(score >= totalQuestions / 2) {
-                resultText = "You missed some questions you are around 8th grade";
-            } else {
-                resultText = "You missed a lot of questions you are not great at math or around 6th grade";
-            }
+    function submitQuiz() {
+    var score = 0;
+    var totalQuestions = 2; // Adjust based on your quiz's total questions
+    var quizResults = {
+        correctAnswers: 0,
+        totalQuestions: totalQuestions,
+        gradeLevel: "",
+    };
 
-            document.getElementById('result').innerHTML = `<p>Your Score: ${score}/${totalQuestions}<br>${resultText}</p>`;
+    // Checking answers (example)
+    if(document.getElementById('q1b').checked) score++;
+    if(document.getElementById('q2a').checked) score++;
+
+    // Updating quizResults object
+    quizResults.correctAnswers = score;
+
+    // Determine the grade level based on score
+    if(score === totalQuestions) {
+        quizResults.gradeLevel = "10th grade or higher";
+    } else if(score >= totalQuestions / 2) {
+        quizResults.gradeLevel = "around 8th grade";
+    } else {
+        quizResults.gradeLevel = "around 6th grade";
+    }
+
+    // Display results on the webpage
+    // Ensure you have an element with ID 'quizResultsDisplay' in your HTML
+    document.getElementById('quizResultsDisplay').textContent = `Quiz Results: ${JSON.stringify(quizResults)}`;
+
+
+
+    // Prepare to send the results to the API
+    const url ='http://127.0.0.1:8086/api/users/diet';
+    const body = { quizResults: quizResults };
+    const authOptions = {
+        mode: 'cors',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        method: 'PUT',
+        cache: 'no-cache',
+        body: JSON.stringify(body)
+    };
+
+    // Send the quiz results to the API
+    fetch(url, authOptions)
+    .then(response => {
+        if (!response.ok) {
+            // Handle error response from the Web API
+            console.error('Error: ' + response.status);
+            return;
         }
-    </script>
-</body>
-</html>
+        // Success handling here
+        // For example, display a success message or redirect
+    })
+    .catch(err => {
+        // Handle potential errors, such as network issues
+        console.error(err);
+    });
+}
+
+</script>
+
+
