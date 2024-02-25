@@ -12,7 +12,7 @@
 </table>
 
 <script type="module">
-    const url = 'http://127.0.0.1:8086/api/users/';
+    const url = 'http://127.0.0.1:8082/api/users/';
     // prepare HTML result container for new output
     const resultContainer = document.getElementById("result");
     const options = {
@@ -87,7 +87,7 @@
     function deleteUser() {
         // You can add your logic for deleting the user here
         console.log("in function");
-        const url = 'http://127.0.0.1:8086/api/users/';
+        const url = 'http://127.0.0.1:8082/api/users/';
         window.location.href = "http://127.0.0.1:4200/student/2024/01/31/403error.html";
         const options = {
             mode: 'cors', // no-cors, cors, same-origin
@@ -150,7 +150,7 @@
 
 <script>
     function update_user(){
-      const url = 'http://127.0.0.1:8086/api/users/';
+      const url = 'http://127.0.0.1:8082/api/users/';
       const body = {
         name: "toby",
         uid: document.getElementById("uid").value,
