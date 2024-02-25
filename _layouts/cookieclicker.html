@@ -109,7 +109,7 @@
 <body>
   <h1>Cookie Clicker</h1>
   <p>Click the cookie to earn points!</p>
-  <a href="http://localhost/_layouts/leaderboard.html">Leaderboard</a>
+  <p>
   <img id="cookie" src="https://www.realsimple.com/thmb/uwmEcWtairipZTGavdWVbkV_dqw=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/chocolatechip-cookies_300-d6a402fc30814fdf87af28be97b5fcdc.jpg" alt="Cookie Image">
   <p>Points: <span id="points">0</span></p>
 
@@ -352,7 +352,7 @@ updateShopDisplay();
       console.log(temp_uid+"  "+ temp_password)
 
     if (typeof points === 'number' && !isNaN(points)) {
-        const url = 'http://127.0.0.1:8086/api/users';
+        const url = 'http://127.0.0.1:8086/api/users/';
         const body = {
             uid: temp_uid,
             password: temp_password,
