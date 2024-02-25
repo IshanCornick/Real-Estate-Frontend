@@ -1,103 +1,135 @@
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Math Level Quiz</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Page</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .quiz-container {
+            width: 90%;
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
         .question {
             margin-bottom: 20px;
+        }
+        .question p {
+            margin: 0;
+            font-weight: bold;
+        }
+        button {
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
-    <h2>Math Level Quiz</h2>
-    <form id="mathQuiz">
-        <div class="question">
-            <p>1. What is 7 + 8?</p>
-            <input type="radio" id="q1a" name="q1" value="A"><label for="q1a">A) 13</label><br>
-            <input type="radio" id="q1b" name="q1" value="B"><label for="q1b">B) 15</label><br>
-            <input type="radio" id="q1c" name="q1" value="C"><label for="q1c">C) 16</label><br>
-            <input type="radio" id="q1d" name="q1" value="D"><label for="q1d">D) 14</label>
-        </div>
-        <div class="question">
-            <p>2. What is 45 divided by 9?</p>
-            <input type="radio" id="q2a" name="q2" value="A"><label for="q2a">A) 5</label><br>
-            <input type="radio" id="q2b" name="q2" value="B"><label for="q2b">B) 6</label><br>
-            <input type="radio" id="q2c" name="q2" value="C"><label for="q2c">C) 7</label><br>
-            <input type="radio" id="q2d" name="q2" value="D"><label for="q2d">D) 4</label>
-        </div>
-        <!-- Add more questions as needed -->
-        
- </form>
-<div id="result"></div>
-
-<button type="button" onclick="submitQuiz()">Submit Answers</button>
-    <div id="result"></div>
-    <div id="quizResultsDisplay">
+    <div class="quiz-container">
+        <h2>Quiz</h2>
+        <form id="quizForm">
+            <div class="question">
+                <p>Question 1: What is 2 + 2?</p>
+                <input type="text" name="question1" required>
+            </div>
+            <div class="question">
+                <p>Question 2: What is the capital of France?</p>
+                <input type="text" name="question2" required>
+            </div>
+            <!-- Add more questions as needed -->
+            <button type="submit">Submit</button>
+        </form>
     </div>
 
 <script>
-    function submitQuiz() {
-    var score = 0;
-    var totalQuestions = 2; // Adjust based on your quiz's total questions
-    var quizResults = {
-        correctAnswers: 0,
-        totalQuestions: totalQuestions,
-        gradeLevel: "",
-    };
+        document.getElementById('quizForm').addEventListener('submit', function(e) {
+            e.preventDefault();
 
-    // Checking answers (example)
-    if(document.getElementById('q1b').checked) score++;
-    if(document.getElementById('q2a').checked) score++;
+            // Define correct answers
+            const correctAnswers = {
+                question1: '4',
+                question2: 'Paris',
+                // Add more correct answers here
+            };
 
-    // Updating quizResults object
-    quizResults.correctAnswers = score;
+            // Collect form data
+            const formData = new FormData(e.target);
+            let score = 0;
+            const quizResults = {};
+            for (const [key, value] of formData.entries()) {
+                quizResults[key] = value;
+                if (value.trim().toLowerCase() === correctAnswers[key].toLowerCase()) {
+                    score++;
+                }
+            }
 
-    // Determine the grade level based on score
-    if(score === totalQuestions) {
-        quizResults.gradeLevel = "10th grade or higher";
-    } else if(score >= totalQuestions / 2) {
-        quizResults.gradeLevel = "around 8th grade";
-    } else {
-        quizResults.gradeLevel = "around 6th grade";
-    }
+            // Determine the grade level based on score
+            const totalQuestions = Object.keys(correctAnswers).length;
+            const scorePercentage = (score / totalQuestions) * 100;
+            let gradeLevel;
+            if (scorePercentage >= 80) {
+                gradeLevel = "High School";
+            } else if (scorePercentage >= 50) {
+                gradeLevel = "Middle School";
+            } else {
+                gradeLevel = "Elementary";
+            }
 
-    // Display results on the webpage
-    // Ensure you have an element with ID 'quizResultsDisplay' in your HTML
-    document.getElementById('quizResultsDisplay').textContent = `Quiz Results: ${JSON.stringify(quizResults)}`;
+            // Display grade level to the user
+            alert(`Based on your quiz results, you are in: ${gradeLevel}`);
 
+            // Example of sending quizResults to the backend (adjust as necessary for your backend)
+                const token = localStorage.getItem('authToken'); // Make sure the key matches how you've stored it
 
-
-    // Prepare to send the results to the API
-    const url ='http://127.0.0.1:8086/api/users/diet';
-    const body = { quizResults: quizResults };
-    const authOptions = {
-        mode: 'cors',
-        credentials: 'include',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        method: 'PUT',
-        cache: 'no-cache',
-        body: JSON.stringify(body)
-    };
-
-    // Send the quiz results to the API
-    fetch(url, authOptions)
-    .then(response => {
-        if (!response.ok) {
-            // Handle error response from the Web API
-            console.error('Error: ' + response.status);
-            return;
-        }
-        // Success handling here
-        // For example, display a success message or redirect
-    })
-    .catch(err => {
-        // Handle potential errors, such as network issues
-        console.error(err);
-    });
-}
-
-</script>
-
+            const url = 'http://127.0.0.1:8086/api/users/diet'; // Update this URL to your actual endpoint
+            
+            const body = {
+            quizResults: quizResults
+        };
+            
+            
+         // Change options according to Authentication requirements
+        const authOptions = {
+            mode: 'cors', // no-cors, *cors, same-origin
+            credentials: 'include', // include, same-origin, omit
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            method: 'PUT', // Override the method property
+            cache: 'no-cache', // Set the cache property
+            body: JSON.stringify(body)
+        };
+  
+        // Fetch JWT
+        fetch(url, authOptions)
+        .then(response => {
+            // handle error response from Web API
+            if (!response.ok) {
+                const errorMsg = 'Error: ' + response.status;
+                console.log(errorMsg);
+                return;
+            }
+            // Success!!!
+            // Redirect to the database page
+        })
+        // catch fetch errors (ie ACCESS to server blocked)
+        .catch(err => {
+            console.error(err);
+        });
+   })
+            
+ </script>
+</body>
+</html>
 
