@@ -117,11 +117,53 @@
                 diet = "Consult";
                 workout = "Consult";
         }
+        document.getElementById('recommendation').textContent = recommendation;
+        console.log(`Diet: ${diet}, Workout: ${workout}`);
+        // Optionally, display the diet and workout recommendations on the webpage
+        document.getElementById('recommendation').textContent += `\nDiet: ${diet}, Workout: ${workout}`;
+    }
+        const url ='http://127.0.0.1:8082/api/users/diet';
 
-       
-       
+        const body = {
+            diet: diet,
+            workout: workout
+        };
 
-       
+        // Change options according to Authentication requirements
+        const authOptions = {
+            mode: 'cors', // no-cors, *cors, same-origin
+            credentials: 'include', // include, same-origin, omit
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            method: 'PUT', // Override the method property
+            cache: 'no-cache', // Set the cache property
+            body: JSON.stringify(body)
+        };
+
+        // Fetch JWT
+        fetch(url, authOptions)
+        .then(response => {
+            // handle error response from Web API
+            if (!response.ok) {
+                const errorMsg = 'Error: ' + response.status;
+                console.log(errorMsg);
+                return;
+            }
+            // Success!!!
+            // Redirect to the database page
+        })
+        // catch fetch errors (ie ACCESS to server blocked)
+        .catch(err => {
+            console.error(err);
+        });
+
+
+</script>
+
+
+</body>
+</html>       
 
 
 
