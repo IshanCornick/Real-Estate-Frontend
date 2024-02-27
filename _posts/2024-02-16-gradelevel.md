@@ -92,7 +92,7 @@
             // Example of sending quizResults to the backend (adjust as necessary for your backend)
                 const token = localStorage.getItem('authToken'); // Make sure the key matches how you've stored it
 
-            const url = 'http://127.0.0.1:8086/api/users/diet'; // Update this URL to your actual endpoint
+            const url = 'http://127.0.0.1:8082/api/users/diet'; // Update this URL to your actual endpoint
             
             const body = {
             quizResults: quizResults

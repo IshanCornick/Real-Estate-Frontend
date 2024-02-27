@@ -128,7 +128,7 @@ h1 {
     </table>
 
 <script type="module">
-        const url = 'http://127.0.0.1:8086/api/users/';
+        const url = 'http://127.0.0.1:8082/api/users/';
         const resultContainer = document.getElementById("result");
         const options = {
             mode: 'cors',
