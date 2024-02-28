@@ -3,7 +3,7 @@
         <tr>
             <th>Name</th>
             <th>ID</th>
-            <th>quizResults</th>
+            <th>grade</th>
         </tr>
     </thead>
     <tbody id="result">
@@ -48,15 +48,15 @@
                     const tr = document.createElement("tr");
                     const name = document.createElement("td");
                     const id = document.createElement("td");
-                    const _quizResults = document.createElement("td")
+                    const _grade = document.createElement("td")
                     // data is specific to the API
                     name.innerHTML = row.name;
                     id.innerHTML = row.uid;
-                    _quizResults.innerHTML = row.quizResults;
+                    _grade.innerHTML = row.grade;
                     // this builds td's into tr
                     tr.appendChild(name);
                     tr.appendChild(id);
-                    tr.appendChild(_quizResults);
+                    tr.appendChild(_grade);
                     // append the row to table
                     resultContainer.appendChild(tr);
                 }
