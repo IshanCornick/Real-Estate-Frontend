@@ -83,7 +83,7 @@ The script defines a function when the page loads. This function is triggered wh
 
     function login_user(){
         // Set Authenticate endpoint
-        const url ='http://127.0.0.1:8086/api/users/authenticate';
+        const url ='http://127.0.0.1:8082/api/users/authenticate';
 
         // Set the body of the request to include login data from the DOM
         const body = {

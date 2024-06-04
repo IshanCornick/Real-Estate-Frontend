@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -24,34 +23,44 @@
         }
         button {
             cursor: pointer;
-            background-color: #007bff;
+            background-color: #007BFF;
             color: white;
             border: none;
             padding: 10px 20px;
             font-size: 16px;
         }
         button:hover {
-            background-color: #0056b3;
+            background-color: #0056B3;
         }
     </style>
 </head>
 <body>
-    <div class="quiz-container">
-        <h2>Quiz</h2>
-        <form id="quizForm">
-            <div class="question">
-                <p>Question 1: What is 2 + 2?</p>
-                <input type="text" name="question1" required>
-            </div>
-            <div class="question">
-                <p>Question 2: What is the capital of France?</p>
-                <input type="text" name="question2" required>
-            </div>
-            <!-- Add more questions as needed -->
-            <button type="submit">Submit</button>
-        </form>
-    </div>
-
+   <div class="quiz-container">
+    <h2>Quiz</h2>
+    <form id="quizForm">
+        <div class="question">
+            <p>Question 1: What is 2 + 2?</p>
+            <input type="text" name="question1" required>
+        </div>
+        <div class="question">
+            <p>Question 2: What is the capital of France?</p>
+            <input type="text" name="question2" required>
+        </div>
+        <div class="question">
+            <p>Question 3: What is the derivative of x^2?</p>
+            <input type="text" name="question3" required>
+        </div>
+        <div class="question">
+            <p>Question 4: Who wrote 'To Kill a Mockingbird'?</p>
+            <input type="text" name="question4" required>
+        </div>
+        <div class="question">
+            <p>Question 5: What is the chemical symbol for gold?</p>
+            <input type="text" name="question5" required>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+</div>
 <script>
         document.getElementById('quizForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -132,4 +141,3 @@
  </script>
 </body>
 </html>
-

@@ -3,7 +3,7 @@
         <tr>
             <th>Name</th>
             <th>ID</th>
-            <th>quizResults</th>
+            <th>grade</th>
         </tr>
     </thead>
     <tbody id="result">
@@ -11,7 +11,7 @@
 </table>
 
 <script type="module">
-    const url = 'http://127.0.0.1:8086/api/users/';
+    const url = 'http://127.0.0.1:8082/api/users/';
     // prepare HTML result container for new output
     const resultContainer = document.getElementById("result");
     const options = {
@@ -48,15 +48,15 @@
                     const tr = document.createElement("tr");
                     const name = document.createElement("td");
                     const id = document.createElement("td");
-                    const _quizResults = document.createElement("td")
+                    const _grade = document.createElement("td")
                     // data is specific to the API
                     name.innerHTML = row.name;
                     id.innerHTML = row.uid;
-                    _quizResults.innerHTML = row.quizResults;
+                    _grade.innerHTML = row.grade;
                     // this builds td's into tr
                     tr.appendChild(name);
                     tr.appendChild(id);
-                    tr.appendChild(_quizResults);
+                    tr.appendChild(_grade);
                     // append the row to table
                     resultContainer.appendChild(tr);
                 }
@@ -83,7 +83,7 @@
     function deleteUser() {
         // You can add your logic for deleting the user here
         console.log("in function");
-        const url = 'http://127.0.0.1:8086/api/users/';
+        const url = 'http://127.0.0.1:8082/api/users/';
         window.location.href = "http://127.0.0.1:4200/student/2024/01/31/403error.html";
         const options = {
             mode: 'cors', // no-cors, cors, same-origin
@@ -146,7 +146,7 @@
 
 <script>
     function update_user(){
-      const url = 'http://127.0.0.1:8086/api/users/';
+      const url = 'http://127.0.0.1:8082/api/users/';
       const body = {
         name: "toby",
         uid: document.getElementById("uid").value,
